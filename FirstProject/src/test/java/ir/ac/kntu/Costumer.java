@@ -30,23 +30,16 @@ public class Costumer {
         return id;
     }
 
-    public int getShops() {
+    public int getShopsNumber() {
         return shops;
     }
 
-    @Override
-    public String toString() {
-        return "Costumer{" +
-                "name='" + name + '\'' +
-                ", id='" + id + '\'' +
-                '}';
-    }
 
     public static Costumer searchCostumerByID(ArrayList<Costumer> costumers, String id) {
         Costumer costumer = null;
-        for (int i = 0; i < costumers.size(); i++) {
-            if (costumers.get(i).getId().equals(id)) {
-                costumer = costumers.get(i);
+        for (Costumer value : costumers) {
+            if (value.getId().equals(id)) {
+                costumer = value;
                 break;
             }
         }
@@ -55,9 +48,9 @@ public class Costumer {
 
     public static String searchCostumerByName(ArrayList<Costumer> costumers, String name) {
         String costumer = "We don't have costumer named: " + name;
-        for (int i = 0; i < costumers.size(); i++) {
-            if (costumers.get(i).getName().equals(name)) {
-                costumer = costumers.get(i).toString();
+        for (Costumer value : costumers) {
+            if (value.getName().equals(name)) {
+                costumer = value.toString();
                 break;
             }
         }
@@ -66,12 +59,21 @@ public class Costumer {
 
     public static String searchCostumerByIdInString(ArrayList<Costumer> costumers, String id) {
         String costumer = "We don't have costumer with ID of: " + id;
-        for (int i = 0; i < costumers.size(); i++) {
-            if (costumers.get(i).getId().equals(id)) {
-                costumer = costumers.get(i).toString();
+        for (Costumer value : costumers) {
+            if (value.getId().equals(id)) {
+                costumer = value.toString();
                 break;
             }
         }
         return costumer;
+    }
+
+    @Override
+    public String toString() {
+        return "Costumer{" +
+                "name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                ", shop numbers=" + shops +
+                '}';
     }
 }

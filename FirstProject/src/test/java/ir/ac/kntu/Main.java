@@ -1,4 +1,5 @@
 package ir.ac.kntu;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,7 +29,7 @@ public class Main {
         branches.add(branch);
         Product product = new Product("first Product", sara, branch, tehran, shiraz, 2.5,
                 new Date(1399, 9, 1), new Date(1399, 9, 3),
-                PostWay.SPECIAL_DELIVERY, SendingWay.GROUND_SHIPPING, PostSituation.IN_STOCK);
+                PostWay.SPECIAL_DELIVERY, SendingWay.GROUND_SHIPPING, PostSituation.IN_STOCK, 3000);
         products.add(product);
     }
 
@@ -126,6 +127,7 @@ public class Main {
             Costumer costumer = Costumer.searchCostumerByID(costumers, string);
             if (costumer != null) {
                 product.setReceiver(costumer);
+                costumer.addAProduct();
                 System.out.println("Enter Branch Code");
                 string = scanner.next();
                 Branch branch = Branch.searchByCode(branches, string);
@@ -140,9 +142,13 @@ public class Main {
                     City city = City.searchByName(cities, string);
                     if (city != null) {
                         product.setDestinationCity(city);
+                        System.out.println("Enter cost of the product:");
+                        string = scanner.next();
+                        if (costumer.getShopsNumber() > 5) {
+                            product.setCost(Double.parseDouble(string) - Double.parseDouble(string) / 10);
+                        } else product.setCost(Double.parseDouble(string));
                     } else {
-                        System.out.println("We don't have This City.Make The City First");
-                        makeACity(scanner);
+                        System.out.println("We don't have This City.");
                     }
                 } else {
                     System.out.println("We don't have a branch with this code!\n");
@@ -178,7 +184,7 @@ public class Main {
                 product.setSendWay(SendingWay.GROUND_SHIPPING);
             else if (b == 2)
                 product.setSendWay(SendingWay.AIR_FREIGHT);
-            else if (b == 3)
+            else
                 product.setSendWay(SendingWay.SHIPPING_BY_SEA);
             menus.postWaysMenu();
             b = scanner.nextInt();
@@ -202,12 +208,12 @@ public class Main {
         string1 = scanner.next();
         string = scanner.next();
         Date date = new Date(Integer.parseInt(string), Integer.parseInt(string1), b);
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getSendTime().compareTo(date) <= 0) {
-                products.get(i).setPostSituation(PostSituation.POSTED);
+        for (Product product : products) {
+            if (product.getSendTime().compareTo(date) <= 0) {
+                product.setPostSituation(PostSituation.POSTED);
             }
-            if (products.get(i).getReceiveTime().compareTo(date) <= 0) {
-                products.get(i).setPostSituation(PostSituation.RECEIVED);
+            if (product.getReceiveTime().compareTo(date) <= 0) {
+                product.setPostSituation(PostSituation.RECEIVED);
             }
         }
     }
@@ -238,7 +244,7 @@ public class Main {
             string = scanner.next();
             System.out.println(Costumer.searchCostumerByIdInString(costumers, string));
         }
-        if (b > 2 && b < 1) {
+        if (b > 2 || b < 1) {
             System.out.println("Wrong number!");
         }
     }
@@ -256,7 +262,7 @@ public class Main {
             string = scanner.next();
             Product.searchByDestinationCity(products, string);
         }
-        if (b > 2 && b < 1) {
+        if (b > 2 || b < 1) {
             System.out.println("Wrong number!");
         }
     }
@@ -273,7 +279,7 @@ public class Main {
         if (b == 3) {
             Product.filterByReceivedCon(products);
         }
-        if (b > 3 && b < 1) {
+        if (b > 3 || b < 1) {
             System.out.println("Wrong number!");
         }
     }

@@ -13,6 +13,7 @@ public class Product {
     private PostWay postWay;
     private SendingWay sendWay;
     private City destinationCity;
+    private double cost;
 
     public Product(String name, double weight) {
         this.name = name;
@@ -21,7 +22,7 @@ public class Product {
 
     public Product(String name, Costumer receiver, Branch sender, City startingCity, City destinationCity,
                    double weight, Date sendTime, Date receiveTime, PostWay postWay, SendingWay sendWay,
-                   PostSituation postSituation) {
+                   PostSituation postSituation,double cost) {
         this.name = name;
         this.receiver = receiver;
         this.sender = sender;
@@ -33,6 +34,7 @@ public class Product {
         this.postWay = postWay;
         this.sendWay = sendWay;
         this.postSituation = postSituation;
+        this.cost = cost;
     }
 
     public void setName(String name) {
@@ -45,6 +47,10 @@ public class Product {
 
     public void setSender(Branch sender) {
         this.sender = sender;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
     public void setStartingCity(City startingCity) {
@@ -125,12 +131,16 @@ public class Product {
         return postSituation;
     }
 
+    public double getCost() {
+        return cost;
+    }
+
     public static void searchByDestinationCity(ArrayList<Product> products, String city) {
         int count = 0;
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getDestinationCity().getName().equals(city)) {
+        for (Product product : products) {
+            if (product.getDestinationCity().getName().equals(city)) {
                 count++;
-                System.out.println(products.get(i).toString());
+                System.out.println(product.toString());
             }
         }
         if (count == 0)
@@ -139,10 +149,10 @@ public class Product {
 
     public static void searchByStartingCity(ArrayList<Product> products, String city) {
         int count = 0;
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getStartingCity().getName().equals(city)) {
+        for (Product product : products) {
+            if (product.getStartingCity().getName().equals(city)) {
                 count++;
-                System.out.println(products.get(i).toString());
+                System.out.println(product.toString());
             }
         }
         if (count == 0)
@@ -152,10 +162,10 @@ public class Product {
     ////////////////
     public static void filterBySentCon(ArrayList<Product> products) {
         int count = 0;
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getPostSituation().equals(PostSituation.POSTED)) {
+        for (Product product : products) {
+            if (product.getPostSituation().equals(PostSituation.POSTED)) {
                 count++;
-                System.out.println(products.get(i).toString());
+                System.out.println(product.toString());
             }
         }
         if (count == 0)
@@ -164,10 +174,10 @@ public class Product {
 
     public static void filterByReceivedCon(ArrayList<Product> products) {
         int count = 0;
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getPostSituation().equals(PostSituation.RECEIVED)) {
+        for (Product product : products) {
+            if (product.getPostSituation().equals(PostSituation.RECEIVED)) {
                 count++;
-                System.out.println(products.get(i).toString());
+                System.out.println(product.toString());
             }
         }
         if (count == 0)
@@ -176,10 +186,10 @@ public class Product {
 
     public static void filterByInStockCon(ArrayList<Product> products) {
         int count = 0;
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getPostSituation().equals(PostSituation.IN_STOCK)) {
+        for (Product product : products) {
+            if (product.getPostSituation().equals(PostSituation.IN_STOCK)) {
                 count++;
-                System.out.println(products.get(i).toString());
+                System.out.println(product.toString());
             }
         }
         if (count == 0)
@@ -191,15 +201,16 @@ public class Product {
         return "Product{" +
                 "name='" + name + '\'' +
                 ", weight=" + weight +
-                ", receiver=" + receiver +
-                ", sender=" + sender +
+                ",\nreceiver=" + receiver +
+                ",\nsender=" + sender +
                 ", \nstartingCity=" + startingCity +
                 ", postSituation=" + postSituation +
                 ", sendTime=" + sendTime +
-                ", \nreceiveTime=" + receiveTime +
+                ", receiveTime=" + receiveTime +
                 ", postWay=" + postWay +
                 ", sendWay=" + sendWay +
                 ", destinationCity=" + destinationCity +
+                ", cost=" + cost +
                 '}';
     }
 }
